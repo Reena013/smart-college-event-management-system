@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Registration</title>
+</head>
+<body>
+  <h1>Event Registration Form</h1>
+  <form id="registration-form">
+    <label for="name">Full Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="branch">Branch:</label><br>
+    <input type="text" id="branch" name="branch" required><br><br>
+
+    <label for="year">Year:</label><br>
+    <input type="text" id="year" name="year" required><br><br>
+
+    <label for="enrollment">Enrollment Number:</label><br>
+    <input type="text" id="enrollment" name="enrollment" required><br><br>
+
+    <label for="contact">Contact Number:</label><br>
+    <input type="text" id="contact" name="contact" required><br><br>
+
+    <button type="submit">Submit Registration</button>
+  </form>
+
+  <div id="qr-code"></div>
+
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <script>
+    document.getElementById('registration-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get form data
+      var name = document.getElementById('name').value;
+      var branch = document.getElementById('branch').value;
+      var year = document.getElementById('year').value;
+      var enrollment = document.getElementById('enrollment').value;
+      var contact = document.getElementById('contact').value;
+
+      // Generate QR Code with the registration details
+      var qrData = `Name: ${name}\nBranch: ${branch}\nYear: ${year}\nEnrollment: ${enrollment}\nContact: ${contact}`;
+      new QRCode(document.getElementById("qr-code"), {
+        text: qrData,
+        width: 128,
+        height: 128
+      });
+
+      // Optionally, you could save this data to a database or display a confirmation message
+      alert("Registration Successful! QR code generated.");
+    });
+  </script>
+</body>
+</html>

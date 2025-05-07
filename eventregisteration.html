@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Event Registration</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>Event Registration</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="event.html">Events</a>
+      <a href="contact.html">Contact</a>
+      <a href="feedback.html">Feedback</a>
+    </nav>
+  </header>
+
+  <section class="registration-section">
+    <h2 id="eventTitle">Register for Event</h2>
+    
+    <!-- Registration Form -->
+    <form id="registrationForm">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="text" id="branch" placeholder="Branch" required>
+      <input type="text" id="year" placeholder="Year" required>
+      <input type="text" id="enrollment" placeholder="Enrollment Number" required>
+      <input type="text" id="contact" placeholder="Contact Number" required>
+      <input type="text" id="event" placeholder="event" required>
+      <button type="submit">Register</button>
+    </form>
+
+    <div id="qrcode" style="margin-top: 20px;"></div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 EventEase. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Get event ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('event');
+
+    // Set event title based on the event ID
+    const eventTitle = {
+      "tech-talk": "Tech Talk 2025",
+      "cultural-fest": "Cultural Fest 2025",
+      "hackathon": "Hackathon 2025"
+    };
+
+    // Update the title based on event ID
+    document.getElementById('eventTitle').innerText = eventTitle[eventId] || "Unknown Event";
+
+    // Handle Registration Form Submit
+    document.getElementById("registrationForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      
+      const name = document.getElementById("name").value;
+      const branch = document.getElementById("branch").value;
+      const year = document.getElementById("year").value;
+      const enrollment = document.getElementById("enrollment").value;
+      const contact = document.getElementById("contact").value;
+      
+      // Display success message and generate a QR code for the registration
+      const registrationData = `Event: ${eventTitle[eventId]}\nName: ${name}\nBranch: ${branch}\nYear: ${year}\nEnrollment No: ${enrollment}\nContact: ${contact}`;
+      generateQRCode(registrationData);
+      
+      alert("Registration Successful! Your QR code is generated.");
+      document.getElementById("registrationForm").reset(); // Reset the form after registration
+    });
+    
+    // Function to generate the QR code for the registration
+    function generateQRCode(data) {
+      const qrCodeContainer = document.getElementById("qrcode");
+      qrCodeContainer.innerHTML = ""; // Clear previous QR
+      new QRCode(qrCodeContainer, {
+        text: data,
+        width: 180,
+        height: 180,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    }
+  </script>
+<!-- QR Code Display -->
+<div id="qrcode" style="margin-top: 20px;"></div>
+
+<!-- Download Button -->
+<button id="downloadQR">Download QR Code</button>
+
+<script src="script.js"></script>
+
+
+
+</body>
+</html>

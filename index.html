@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EventEase - Smart College Event Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Welcome to Medicaps University</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="event.html" class="active">Events</a><!-- Link to event.html -->
+      <a href="contact.html">Contact</a>
+      <a href="feedback.html">Feedback</a>
+      
+    </nav>
+  </header>
+   <!-- QR CODE SECTION -->
+   <section id="register" class="qr-section">
+    <h2>Scan to Register</h2>
+
+  <!-- HOME BANNER -->
+  <section class="home-banner" id="home">
+    <div class="overlay"></div>
+    <div class="banner-content">
+      <h1>EVENTEASE</h1>
+      <p>Smart College Event Management System</p>
+      <button id="register-now-btn" class="banner-btn">Register Now</button>
+    </div>
+  </section>
+
+ <!-- QR CODE SECTION -->
+<section id="register" class="qr-section">
+  <h2>Scan to Register</h2>
+  <p>Scan the QR Code below to register for upcoming events.</p>
+  <div id="qrcode" style="margin-top: 20px;"></div> <!-- This will hold the QR Code -->
+</section>
+
+
+  <!-- EVENT LIST WITH PHOTOS -->
+  <section id="events" class="event-section">
+    <h2>Upcoming Events</h2>
+    <div class="event-list">
+      <div class="event-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY_W9bG7nyMp5K3U_NRKCwl83CrpXFHwdJ-w&s" alt="Event 1">
+        <h3>Tech Talk 2025</h3>
+        <p>Join our experts for a deep dive into AI & ML innovations.</p>
+      </div>
+      <div class="event-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdipGhqtbRSXRIrtoGMDH910KImbRDuQu-kg&s" alt="Event 2">
+        <h3>Cultural Fest</h3>
+        <p>Enjoy dance, drama, and music competitions in full desi vibe!</p>
+      </div>
+      <div class="event-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzSzCwoLbTphs4mBsYxwOVlzt3PFyvK6Sp5A&s" alt="Event 3">
+        <h3>Hackathon</h3>
+        <p>Code, build, and innovate in our 24-hour coding challenge!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COPYRIGHT -->
+  <footer>
+    <p>&copy; 2025 EventEase. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Function to generate the QR code
+    function generateQRCode(eventId) {
+      const qrCodeContainer = document.getElementById("qrcode");
+      qrCodeContainer.innerHTML = ""; // Clear any existing QR Code
+
+      const eventUrl = `event-registration.html?event=${eventId}`; // Construct the registration URL with the event ID
+
+      new QRCode(qrCodeContainer, {
+        text: eventUrl,
+        width: 180,
+        height: 180,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    }
+
+    // Generate QR codes for multiple events
+    generateQRCode('tech-talk'); // Generate QR for Tech Talk
+    generateQRCode('cultural-fest'); // Generate QR for Cultural Fest
+    generateQRCode('hackathon'); // Generate QR for Hackathon
+  </script>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="modal-close" class="close">&times;</span>
+      <h3>Fill out your details to register for the event</h3>
+      <form id="registration-form">
+        <input type="text" id="name" placeholder="Full Name" required><br>
+        <input type="text" id="branch" placeholder="Branch" required><br>
+        <input type="text" id="year" placeholder="Year" required><br>
+        <input type="text" id="enrollment" placeholder="Enrollment Number" required><br>
+        <input type="text" id="contact" placeholder="Contact Number" required><br>
+        <input type="text" id="event" placeholder="event" required><br>
+        <button type="submit">Submit Registration</button>
+      </form>
+      <div id="registration-qr" style="margin-top: 20px;"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+  <script>
+    // Open Modal when "Register Now" button is clicked
+    document.getElementById('register-now-btn').addEventListener('click', function() {
+      document.getElementById('modal').style.display = 'block';
+    });
+
+    // Close Modal when close button is clicked
+    document.getElementById('modal-close').addEventListener('click', function() {
+      document.getElementById('modal').style.display = 'none';
+    });
+
+    // Handle form submission to generate QR code
+    document.getElementById('registration-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Collect data from form
+      var name = document.getElementById('name').value;
+      var branch = document.getElementById('branch').value;
+      var year = document.getElementById('year').value;
+      var enrollment = document.getElementById('enrollment').value;
+      var contact = document.getElementById('contact').value;
+
+      // Generate QR Code with registration details
+      var qrData = `Name: ${name}\nBranch: ${branch}\nYear: ${year}\nEnrollment: ${enrollment}\nContact: ${contact}`;
+      new QRCode(document.getElementById("registration-qr"), {
+        text: qrData,
+        width: 128,
+        height: 128
+      });
+
+      alert("Registration Successful! QR Code Generated.");
+    });
+  </script>
+  <div id="main-content"></div> <!-- Required for loadPage() to work -->
+
+</body>
+</html>
